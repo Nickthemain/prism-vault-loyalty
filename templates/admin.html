@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factory Command Center // PRISM VAULT</title>
+  <meta name="description" content="Factory Owner Command Center, Batch Minting, Real-time Anti-Fraud Monitor and Packaging QR Label Generator">
+
+  <!-- Bespoke Luxury Stylesheet -->
+  <link rel="stylesheet" href="/static/css/crystal.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Prismatic Ambient Atmosphere -->
+  <div class="prismatic-ambient">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+  </div>
+
+  <!-- Crystal Navigation Bar -->
+  <header class="crystal-nav">
+    <div class="nav-container">
+      <div style="display: flex; align-items: center; gap: 1.5rem;">
+        <a href="/" class="brand-wrapper">
+          <div class="prism-logo-gem">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+          </div>
+          <div class="brand-title">
+            PRISM VAULT
+            <span class="brand-sub">Factory Owner Command Center</span>
+          </div>
+        </a>
+
+        <div class="factory-pill-badge" style="margin-left: 1rem;">
+          <span class="cleanroom-status-dot"></span>
+          Master Cleanroom Telemetry Active
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <a href="/" class="btn-crystal btn-crystal-secondary" style="padding: 0.5rem 1rem; font-size: 0.82rem;">
+          ← Back to Customer Portal
+        </a>
+
+        <button class="btn-crystal btn-crystal-gold" onclick="openMintBatchModal()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+          Mint Product Batch
+        </button>
+
+        <button class="btn-crystal btn-crystal-secondary" onclick="resetDemoData()" title="Reset factory database to fresh seed state">
+          Reset Demo State
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- TOP ROW: FACTORY TELEMETRY & STAT CARDS -->
+    <div class="admin-stats-grid">
+      <!-- 1. Total Manufactured Boxes -->
+      <div class="crystal-card stat-metric-card">
+        <div class="stat-top-row">
+          <span class="stat-label">Manufactured Boxes</span>
+          <div class="stat-icon" style="color: #38bdf8;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-value" id="statTotalBoxes">—</div>
+        <div class="stat-trend trend-up">
+          <span>● Cleanroom Serial Inventory</span>
+        </div>
+      </div>
+
+      <!-- 2. Verified Genuine Boxes -->
+      <div class="crystal-card stat-metric-card">
+        <div class="stat-top-row">
+          <span class="stat-label">Genuine Verifications</span>
+          <div class="stat-icon" style="color: #34d399;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-value" id="statVerifiedBoxes">—</div>
+        <div class="stat-trend trend-up" id="statVerifyRate">
+          <span>— % Authenticated</span>
+        </div>
+      </div>
+
+      <!-- 3. Points Minted & Liquidity -->
+      <div class="crystal-card stat-metric-card">
+        <div class="stat-top-row">
+          <span class="stat-label">Total Points Minted</span>
+          <div class="stat-icon" style="color: #fbbf24;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-value" id="statPointsMinted">—</div>
+        <div class="stat-trend" style="color: #94a3b8;" id="statPointsCirculating">
+          <span>— Circulating</span>
+        </div>
+      </div>
+
+      <!-- 4. Active Fraud Alerts -->
+      <div class="crystal-card stat-metric-card">
+        <div class="stat-top-row">
+          <span class="stat-label">Security Anomaly Alerts</span>
+          <div class="stat-icon" style="color: #fb7185;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="stat-value" id="statFraudAlerts" style="color: #fb7185;">—</div>
+        <div class="stat-trend trend-warning">
+          <span>Double-Spends & Replay Defense</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS GRID -->
+    <div class="charts-grid">
+      <!-- 1. Velocity Trend Line Chart -->
+      <div class="crystal-card chart-card">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div class="section-eyebrow">Verification Velocity</div>
+            <h3 style="font-family: var(--font-display); font-size: 1.15rem; color: #ffffff;">
+              Authenticity Claims Over Time
+            </h3>
+          </div>
+          <span style="font-size: 0.72rem; color: #38bdf8; font-family: var(--font-mono);">
+            LIVE HOURLY TELEMETRY
+          </span>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="velocityChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 2. Customer Tier Segmentation -->
+      <div class="crystal-card chart-card">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div class="section-eyebrow">Collector Base</div>
+            <h3 style="font-family: var(--font-display); font-size: 1.15rem; color: #ffffff;">
+              Tier Distribution
+            </h3>
+          </div>
+        </div>
+        <div class="chart-canvas-wrap">
+          <canvas id="tierChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: BATCHES & LABEL PRINTING STUDIO -->
+    <div class="crystal-card" style="padding: 1.75rem; margin-bottom: 2.5rem;">
+      <div class="section-header-row" style="margin-bottom: 1.25rem;">
+        <div>
+          <div class="section-eyebrow">Production Runs</div>
+          <h2 class="section-heading" style="font-size: 1.5rem;">
+            Manufacturing Batches & Packaging QR Labels
+          </h2>
+        </div>
+        <button class="btn-crystal btn-crystal-primary" onclick="openMintBatchModal()">
+          + Mint New Batch Codes
+        </button>
+      </div>
+
+      <div class="glass-table-wrapper">
+        <table class="glass-table">
+          <thead>
+            <tr>
+              <th>Batch Number</th>
+              <th>Product Designation</th>
+              <th>Units Progress</th>
+              <th>Points / Box</th>
+              <th>Cleanroom & Inspector</th>
+              <th>Created</th>
+              <th>Packaging Action</th>
+            </tr>
+          </thead>
+          <tbody id="batchesTableBody">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION: REAL-TIME ANTI-FRAUD & SECURITY MONITOR -->
+    <div class="crystal-card" style="padding: 1.75rem; margin-bottom: 2.5rem;">
+      <div class="section-header-row" style="margin-bottom: 1.25rem;">
+        <div>
+          <div class="section-eyebrow" style="color: #fb7185;">Forensic Protection</div>
+          <h2 class="section-heading" style="font-size: 1.5rem;">
+            Real-Time Anti-Fraud & Anomaly Incident Stream
+          </h2>
+        </div>
+        <span style="font-size: 0.75rem; color: #94a3b8; font-family: var(--font-mono);">
+          AUTO-FLAGGING VELOCITY ATTACKS & DOUBLE-SPENDS
+        </span>
+      </div>
+
+      <div class="glass-table-wrapper">
+        <table class="glass-table">
+          <thead>
+            <tr>
+              <th>Threat Level</th>
+              <th>Incident Type</th>
+              <th>Target Serial Code</th>
+              <th>Source IP</th>
+              <th>Forensic Threat Diagnostics</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="auditLogsTableBody">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION: REWARD FULFILLMENT QUEUE -->
+    <div class="crystal-card" style="padding: 1.75rem;">
+      <div class="section-header-row" style="margin-bottom: 1.25rem;">
+        <div>
+          <div class="section-eyebrow" style="color: #fbbf24;">Logistics & Dispatch</div>
+          <h2 class="section-heading" style="font-size: 1.5rem;">
+            Customer Reward Fulfillment Queue
+          </h2>
+        </div>
+      </div>
+
+      <div class="glass-table-wrapper">
+        <table class="glass-table">
+          <thead>
+            <tr>
+              <th>Redemption Code</th>
+              <th>Reward Item</th>
+              <th>Collector</th>
+              <th>Shipping Address</th>
+              <th>Fulfillment Status</th>
+              <th>Courier Tracking #</th>
+            </tr>
+          </thead>
+          <tbody id="redemptionsTableBody">
+            <!-- Injected dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODALS
+       ========================================================================== -->
+
+  <!-- 1. Mint Product Batch Modal -->
+  <div class="modal-backdrop" id="mintBatchModal">
+    <div class="modal-window" style="max-width: 580px;">
+      <button class="modal-close-btn" onclick="closeModal('mintBatchModal')">✕</button>
+      <h3 style="font-family: var(--font-display); font-size: 1.45rem; color: #ffffff; margin-bottom: 0.4rem;">
+        Mint Cleanroom Product Batch
+      </h3>
+      <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.5rem;">
+        Generate unique, cryptographically signed serial codes and high-DPI packaging QR labels for this factory production run.
+      </p>
+
+      <form onsubmit="handleBatchMintSubmit(event)">
+        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.35rem;">
+              Product Designation / Name
+            </label>
+            <input type="text" id="mintProdName" required placeholder="e.g. Apex Precision Titanium Chrono Flask"
+                   style="width: 100%; padding: 0.75rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #ffffff; outline: none;">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.35rem;">
+                Factory SKU
+              </label>
+              <input type="text" id="mintProdSku" required placeholder="APEX-FLASK-TI-01"
+                     style="width: 100%; padding: 0.75rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #ffffff; outline: none;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.35rem;">
+                Total Boxes to Mint
+              </label>
+              <input type="number" id="mintQuantity" required min="1" max="250" value="12"
+                     style="width: 100%; padding: 0.75rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #ffffff; outline: none;">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.35rem;">
+                Points Awarded Per Box
+              </label>
+              <input type="number" id="mintPointsPerBox" required min="100" max="10000" step="100" value="1200"
+                     style="width: 100%; padding: 0.75rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #ffffff; outline: none;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.35rem;">
+                Cleanroom Inspector ID
+              </label>
+              <input type="text" id="mintInspector" required value="INSP-AL-902"
+                     style="width: 100%; padding: 0.75rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #ffffff; outline: none;">
+            </div>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.35rem;">
+              Manufacturing Facility Location
+            </label>
+            <input type="text" id="mintFacility" required value="Aethelgard Precision Foundry, Cleanroom Alpha-7"
+                   style="width: 100%; padding: 0.75rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #ffffff; outline: none;">
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.35rem;">
+              Production Run Notes (Optional)
+            </label>
+            <textarea id="mintNotes" rows="2" placeholder="Vacuum-sealed titanium flask run for premier autumn launch..."
+                      style="width: 100%; padding: 0.75rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; color: #ffffff; outline: none;"></textarea>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+          <button type="button" class="btn-crystal btn-crystal-secondary" onclick="closeModal('mintBatchModal')">
+            Cancel
+          </button>
+          <button type="submit" class="btn-crystal btn-crystal-gold" id="mintBatchSubmitBtn">
+            Mint Cryptographic Batch
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Printable Box QR Label Sheet Modal -->
+  <div class="modal-backdrop" id="printLabelsModal">
+    <div class="modal-window" style="max-width: 960px; max-height: 94vh;">
+      <button class="modal-close-btn no-print" onclick="closeModal('printLabelsModal')">✕</button>
+      
+      <div class="no-print" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div>
+          <h3 style="font-family: var(--font-display); font-size: 1.35rem; color: #ffffff;">
+            Print Packaging QR Label Sheet
+          </h3>
+          <p id="printModalBatchTitle" style="font-size: 0.82rem; color: #38bdf8; font-family: var(--font-mono); margin-top: 2px;">
+            Loading batch...
+          </p>
+        </div>
+        <button class="btn-crystal btn-crystal-primary" onclick="window.print()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          Print Label Sheet (A4 / Sticker Stock)
+        </button>
+      </div>
+
+      <!-- Printable QR Cards Grid -->
+      <div class="print-labels-container" id="printLabelsContainer">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Script -->
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>
